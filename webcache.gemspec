@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = 'webcache'
   s.version     = WebCache::VERSION
   s.date        = Date.today.to_s
-  s.summary     = "Download web pages with caching"
+  s.summary     = "Hassle-free caching for HTTP download"
   s.description = "Easy to use file cache for web downloads"
   s.authors     = ["Danny Ben Shitrit"]
   s.email       = 'db@dannyben.com'
