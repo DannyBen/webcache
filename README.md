@@ -85,3 +85,21 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
+Error Handling
+--------------------------------------------------
+
+Whenever a request results in any HTTP error, two things will happen:
+
+1. The return value will be set to the error message
+2. The `last_error` variable will be set to the error message
+
+If `last_error` is anything but `false`, it means failure.
+
+```ruby
+cache = WebCache.new
+puts cache.get 'http://example.com/not_found'
+# => '404 Not Found'
+
+puts cache.last_error
+# => '404 Not Found'
+```
