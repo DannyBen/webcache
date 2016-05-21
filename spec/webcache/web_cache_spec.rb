@@ -12,7 +12,7 @@ describe WebCache do
   describe '#new' do
     it "sets default properties" do
       cache = WebCache.new
-      expect(cache.life).to eq 60
+      expect(cache.life).to eq 3600
       expect(cache.dir).to eq 'cache'
     end
 
@@ -21,13 +21,6 @@ describe WebCache do
       expect(cache.life).to eq 120
       expect(cache.dir).to eq 'store'
     end
-
-    it "creates a cache folder" do
-      FileUtils.rm_rf 'cache'
-      expect(Dir).not_to exist 'cache'
-      cache = WebCache.new
-      expect(Dir).to exist 'cache'
-    end
   end
 
   describe '#get' do
@@ -35,6 +28,12 @@ describe WebCache do
       cache.disable
       cache.get url
       expect(Dir['cache/*']).to be_empty      
+    end
+
+    it "creates a cache folder" do
+      expect(Dir).not_to exist 'cache'
+      cache.get url
+      expect(Dir).to exist 'cache'
     end
 
     it "saves a file" do

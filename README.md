@@ -42,7 +42,7 @@ expire after 60 minutes. The cache folder will be created as needed.
 You can change these settings on initialization:
 
 ```ruby
-cache = WebCache.new 'tmp/my_cache', 120
+cache = WebCache.new 'tmp/my_cache', 7200
 content = cache.get 'http://example.com'
 ```
 
@@ -51,7 +51,7 @@ Or later:
 ```ruby
 cache = WebCache.new
 cache.dir = 'tmp/my_cache'
-cache.life = 120
+cache.life = 7200 # seconds
 content = cache.get 'http://example.com'
 ```
 

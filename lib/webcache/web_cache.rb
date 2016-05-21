@@ -6,11 +6,10 @@ class WebCache
   attr_reader :last_error
   attr_accessor :dir, :life
 
-  def initialize(dir='cache', life=60)
+  def initialize(dir='cache', life=3600)
     @dir = dir
     @life = life
     @enabled = true
-    FileUtils.mkdir_p dir
   end
 
   def get(url)
@@ -60,6 +59,7 @@ class WebCache
   end
 
   def save_file_content(path, content)
+    FileUtils.mkdir_p dir
     File.open path, 'wb' do |f| 
       f.write Marshal.dump content
     end
