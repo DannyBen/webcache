@@ -3,6 +3,7 @@ require 'fileutils'
 require 'open-uri'
 
 class WebCache
+  attr_reader :last_error
   attr_accessor :dir, :life
 
   def initialize(dir='cache', life=60)
@@ -13,6 +14,7 @@ class WebCache
   end
 
   def get(url)
+    @last_error = false
     return http_get url unless enabled?
 
     path = get_path url
@@ -20,7 +22,12 @@ class WebCache
     return load_file_content path if File.exist? path
 
     content = http_get(url)
-    save_file_content(path, content)
+    if @last_error
+      content = @last_error
+    else
+      save_file_content(path, content)
+    end
+
     content
   end
 
@@ -59,7 +66,11 @@ class WebCache
   end
 
   def http_get(url)
-    open(url).read
+    begin
+      open(url).read
+    rescue OpenURI::HTTPError => e
+      @last_error = e.message
+    end
   end
 
   def old?(path)
