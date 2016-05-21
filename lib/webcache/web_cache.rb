@@ -63,6 +63,6 @@ class WebCache
   end
 
   def old?(path)
-    life > 0 and File.exists?(path) and Time.new - File.mtime(path) >= life
+    life > 0 and File.exist?(path) and Time.new - File.mtime(path) >= life
   end
 end

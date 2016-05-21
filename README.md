@@ -1,4 +1,4 @@
-WebCache - Download web pages with a simple cache
+WebCache
 ==================================================
 
 [![Gem](https://img.shields.io/gem/v/webcache.svg?style=flat-square)](https://rubygems.org/gems/webcache)
