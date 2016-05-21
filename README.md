@@ -28,7 +28,7 @@ gem 'webcache'
 Usage
 --------------------------------------------------
 
-Use `WebCache.get url` to load from cache, or download:
+Load a file from cache, or download if needed:
 
 ```ruby
 require 'webcache'
@@ -36,8 +36,8 @@ cache = WebCache.new
 content = cache.get 'http://example.com'
 ```
 
-By default, the cached objects are stored in the `./cache` folder, and
-expire after 60 minutes. The cache folder will be created as needed.
+By default, the cached objects are stored in the `./cache` directory, and
+expire after 60 minutes. The cache directory will be created as needed.
 
 You can change these settings on initialization:
 
