@@ -31,6 +31,7 @@ Usage
 Use `WebCache.get url` to load from cache, or download:
 
 ```ruby
+require 'webcache'
 cache = WebCache.new
 content = cache.get 'http://example.com'
 ```
@@ -54,7 +55,7 @@ cache.life = 120
 content = cache.get 'http://example.com'
 ```
 
-To check if a URL is cached, use the 'cached?' method:
+To check if a URL is cached, use the `cached?` method:
 
 ```ruby
 cache = WebCache.new
@@ -71,10 +72,10 @@ You can enable/disable the cache at any time:
 ```ruby
 cache = WebCache.new
 cache.disable
-content = cache.get 'http://example.com'
 cache.enabled? 
 # => false
 
+content = cache.get 'http://example.com'
 cache.cached? 'http://example.com'
 # => false
 
