@@ -61,6 +61,30 @@ describe WebCache do
       content = cache.get url
       expect(content.length).to be > 500
     end
+
+    context 'with invalid request' do
+      let(:url) { 'http://example.com/not_found' }
+
+      it 'returns the error message' do
+        expect(cache.get url).to eq '404 Not Found'
+      end
+
+      it 'sets last_error to the error message' do
+        cache.get url
+        expect(cache.last_error).to eq '404 Not Found'
+      end
+    end
+
+    context 'with a valid request following an invalid one' do
+      let(:invalid_url) { 'http://example.com/not_found' }
+
+      it 'resets last_error' do
+        cache.get invalid_url
+        expect(cache.last_error).to eq '404 Not Found'
+        cache.get url
+        expect(cache.last_error).to be false
+      end
+    end
   end
 
   describe '#cached?' do
