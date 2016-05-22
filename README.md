@@ -8,7 +8,7 @@ WebCache
 
 ---
 
-WebCache provides a hassle-free caching for HTTP download.
+Hassle-free caching for HTTP download.
 
 ---
 

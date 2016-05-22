@@ -50,7 +50,6 @@ class WebCache
   private
 
   def get_path(url)
-    @last_url = url
     File.join dir, Digest::MD5.hexdigest(url)
   end
 
