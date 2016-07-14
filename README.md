@@ -33,7 +33,12 @@ Load a file from cache, or download if needed:
 ```ruby
 require 'webcache'
 cache = WebCache.new
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
+puts response             # => "<html>...</html>"
+puts response.content     # => same as above
+puts response.to_s        # => same as above
+puts response.error       # => nil
+puts response.base_uri    # => "http://example.com/"
 ```
 
 By default, the cached objects are stored in the `./cache` directory, and
@@ -43,7 +48,7 @@ You can change these settings on initialization:
 
 ```ruby
 cache = WebCache.new 'tmp/my_cache', 7200
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
 ```
 
 Or later:
@@ -52,7 +57,7 @@ Or later:
 cache = WebCache.new
 cache.dir = 'tmp/my_cache'
 cache.life = 7200 # seconds
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
 ```
 
 To check if a URL is cached, use the `cached?` method:
@@ -62,7 +67,7 @@ cache = WebCache.new
 cache.cached? 'http://example.com'
 # => false
 
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
 cache.cached? 'http://example.com'
 # => true
 ```
@@ -75,31 +80,41 @@ cache.disable
 cache.enabled? 
 # => false
 
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
 cache.cached? 'http://example.com'
 # => false
 
 cache.enable
-content = cache.get 'http://example.com'
+response = cache.get 'http://example.com'
 cache.cached? 'http://example.com'
 # => true
 ```
 
-Error Handling
+Response Object
 --------------------------------------------------
 
-Whenever a request results in any HTTP error, two things will happen:
+The response object holds these properties:
 
-1. The return value will be set to the error message
-2. The `last_error` variable will be set to the error message
+**`response.content`**:  
+Contains the HTML content. In case of an error, this will include the
+error message. The `#to_s` method of the response object also returns
+the same content.
 
-If `last_error` is anything but `false`, it means failure.
+**`response.error`**:  
+In case of an error, this contains the error message, `nil` otherwose.
+
+**`response.base_uri`**:
+Contains the actual address of the page. This is useful when the request
+is redirected. For example, `http://example.com` will set the 
+`base_uri` to `http://example.com/` (note the trailing slash).
+
 
 ```ruby
 cache = WebCache.new
-puts cache.get 'http://example.com/not_found'
+response = cache.get 'http://example.com/not_found'
+puts response
 # => '404 Not Found'
 
-puts cache.last_error
+puts response.error
 # => '404 Not Found'
 ```
