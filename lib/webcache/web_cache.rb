@@ -13,21 +13,17 @@ class WebCache
   end
 
   def get(url)
-    @last_error = false
     return http_get url unless enabled?
 
     path = get_path url
     FileUtils.rm path if old? path
-    return load_file_content path if File.exist? path
 
-    content = http_get(url)
-    if @last_error
-      content = @last_error
-    else
-      save_file_content(path, content)
-    end
+    return load_file_content(path) if File.exist? path
 
-    content
+    response = http_get(url)
+    save_file_content(path, response) unless !response || response.error
+
+    response
   end
 
   def cached?(url)
@@ -57,18 +53,18 @@ class WebCache
     Marshal.load File.binread(path)
   end
 
-  def save_file_content(path, content)
+  def save_file_content(path, response)
     FileUtils.mkdir_p dir
     File.open path, 'wb' do |f| 
-      f.write Marshal.dump content
+      f.write Marshal.dump response
     end
   end
 
   def http_get(url)
     begin
-      open(url).read
-    rescue OpenURI::HTTPError => e
-      @last_error = e.message
+      Response.new open(url)
+    rescue => e
+      Response.new error: e.message, base_uri: url, content: e.message
     end
   end
 
