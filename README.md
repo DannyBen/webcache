@@ -103,7 +103,7 @@ the same content.
 **`response.error`**:  
 In case of an error, this contains the error message, `nil` otherwose.
 
-**`response.base_uri`**:
+**`response.base_uri`**:  
 Contains the actual address of the page. This is useful when the request
 is redirected. For example, `http://example.com` will set the 
 `base_uri` to `http://example.com/` (note the trailing slash).
