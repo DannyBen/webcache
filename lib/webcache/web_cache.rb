@@ -1,6 +1,7 @@
 require 'digest/md5'
 require 'fileutils'
 require 'open-uri'
+require 'open_uri_redirections'
 
 class WebCache
   attr_reader :last_error
@@ -62,7 +63,7 @@ class WebCache
 
   def http_get(url)
     begin
-      Response.new open(url)
+      Response.new open(url, allow_redirections: :all)
     rescue => e
       Response.new error: e.message, base_uri: url, content: e.message
     end
