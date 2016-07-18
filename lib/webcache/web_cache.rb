@@ -63,7 +63,7 @@ class WebCache
 
   def http_get(url)
     begin
-      Response.new open(url, allow_redirections: :all)
+      Response.new open(url, open_uri_options)
     rescue => e
       Response.new error: e.message, base_uri: url, content: e.message
     end
@@ -71,5 +71,17 @@ class WebCache
 
   def old?(path)
     life > 0 and File.exist?(path) and Time.new - File.mtime(path) >= life
+  end
+
+  # Use a less strict URL retrieval:
+  # 1. Allow http to/from https redirects (through the use of the 
+  #    open_uri_redirections gem)
+  # 2. Disable SSL verification, otherwise, some https sites that show 
+  #    properly in the browser, will return an error.
+  def open_uri_options
+    {
+      allow_redirections: :all, 
+      ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
+    }
   end
 end
