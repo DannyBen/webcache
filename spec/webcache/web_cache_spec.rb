@@ -72,6 +72,19 @@ describe WebCache do
         expect(response.error).to eq '404 Not Found'
       end
     end
+
+    context "with https" do
+      let(:response) { cache.get 'https://bing.com' }
+
+      before do
+        cache.disable
+      end
+
+      it 'works' do
+        expect(response.content.size).to be > 40000
+        expect(response.error).to be nil
+      end
+    end
   end
 
   describe '#cached?' do
