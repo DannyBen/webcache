@@ -118,4 +118,24 @@ describe WebCache do
     end
   end
 
+  describe '#options' do
+    it "returns a hash with default options" do
+      expected = {
+        allow_redirections: :all, 
+        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
+      }
+      expect(cache.options).to eq expected
+    end
+
+    it "allows adding options" do
+      cache.options[:hello] = 'world'
+      expected = {
+        allow_redirections: :all, 
+        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
+        hello: 'world'
+      }
+      expect(cache.options).to eq expected      
+    end
+  end
+
 end

@@ -44,6 +44,10 @@ class WebCache
     @enabled = false
   end
 
+  def options
+    @options ||= default_open_uri_options
+  end
+
   private
 
   def get_path(url)
@@ -63,7 +67,7 @@ class WebCache
 
   def http_get(url)
     begin
-      Response.new open(url, open_uri_options)
+      Response.new open(url, options)
     rescue => e
       Response.new error: e.message, base_uri: url, content: e.message
     end
@@ -78,7 +82,7 @@ class WebCache
   #    open_uri_redirections gem)
   # 2. Disable SSL verification, otherwise, some https sites that show 
   #    properly in the browser, will return an error.
-  def open_uri_options
+  def default_open_uri_options
     {
       allow_redirections: :all, 
       ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
