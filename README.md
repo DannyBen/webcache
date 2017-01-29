@@ -90,6 +90,21 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
+
+Basic Authentication and Additional Options
+--------------------------------------------------
+WebCache uses Ruby's [Open URI][1] to download. If you wish to modify 
+the options it uses, simply update the `options` hash.
+
+For example, to use HTTP basic authentication, use something like this:
+
+```ruby
+cache = WebCache.new
+cache.options[:http_basic_authentication] = ["user", "pass123!"]
+response = cache.get 'http://example.com'
+```
+
+
 Response Object
 --------------------------------------------------
 
@@ -118,3 +133,6 @@ puts response
 puts response.error
 # => '404 Not Found'
 ```
+
+
+[1]: http://ruby-doc.org/stdlib-2.0.0/libdoc/open-uri/rdoc/OpenURI/OpenRead.html#method-i-open
