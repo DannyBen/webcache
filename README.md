@@ -116,7 +116,7 @@ error message. The `#to_s` method of the response object also returns
 the same content.
 
 **`response.error`**:  
-In case of an error, this contains the error message, `nil` otherwose.
+In case of an error, this contains the error message, `nil` otherwise.
 
 **`response.base_uri`**:  
 Contains the actual address of the page. This is useful when the request
