@@ -1,7 +1,7 @@
 require "runfile-tasks"
 require_relative 'lib/webcache'
 
-name    "WebCache Developer Toolbelt"
+title   "WebCache Developer Toolbelt"
 summary "Runfile tasks for building the WebCache gem"
 version WebCache::VERSION
 
