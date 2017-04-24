@@ -110,29 +110,30 @@ Response Object
 
 The response object holds these properties:
 
-**`response.content`**:  
+### `response.content`
+
 Contains the HTML content. In case of an error, this will include the
 error message. The `#to_s` method of the response object also returns
 the same content.
 
-**`response.error`**:  
+
+### `response.error`
+
 In case of an error, this contains the error message, `nil` otherwise.
 
-**`response.base_uri`**:  
+
+### `response.base_uri`
+
 Contains the actual address of the page. This is useful when the request
 is redirected. For example, `http://example.com` will set the 
 `base_uri` to `http://example.com/` (note the trailing slash).
 
 
-```ruby
-cache = WebCache.new
-response = cache.get 'http://example.com/not_found'
-puts response
-# => '404 Not Found'
+---
 
-puts response.error
-# => '404 Not Found'
-```
+For a similar gem that provides general purpose caching, see the 
+[Lightly gem][2]
 
 
 [1]: http://ruby-doc.org/stdlib-2.0.0/libdoc/open-uri/rdoc/OpenURI/OpenRead.html#method-i-open
+[2]: https://github.com/DannyBen/lightly
