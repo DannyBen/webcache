@@ -5,6 +5,7 @@ cache: bundler
 rvm:
   - "2.0.0"
   - "2.3.1"
+  - "2.4.1"
 
 notifications:
   email: false
