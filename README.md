@@ -3,7 +3,8 @@ WebCache
 
 [![Gem](https://img.shields.io/gem/v/webcache.svg?style=flat-square)](https://rubygems.org/gems/webcache)
 [![Travis](https://img.shields.io/travis/DannyBen/webcache.svg?style=flat-square)](https://travis-ci.org/DannyBen/webcache)
-[![Code Climate](https://img.shields.io/codeclimate/github/DannyBen/webcache.svg?style=flat-square)](https://codeclimate.com/github/DannyBen/webcache)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/DannyBen/webcache.svg?style=flat-square)](https://codeclimate.com/github/DannyBen/webcache)
+[![Issues](https://img.shields.io/codeclimate/issues/github/DannyBen/webcache.svg?style=flat-square)](https://codeclimate.com/github/DannyBen/webcache)
 [![Gemnasium](https://img.shields.io/gemnasium/DannyBen/webcache.svg?style=flat-square)](https://gemnasium.com/DannyBen/webcache)
 
 ---
