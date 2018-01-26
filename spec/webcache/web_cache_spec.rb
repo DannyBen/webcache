@@ -74,7 +74,7 @@ describe WebCache do
     end
 
     context "with https" do
-      let(:response) { cache.get 'https://bing.com' }
+      let(:response) { cache.get 'https://en.wikipedia.org/wiki/HTTPS' }
 
       before do
         cache.disable
