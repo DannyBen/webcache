@@ -1,10 +1,10 @@
 WebCache
 ==================================================
 
-[![Gem](https://img.shields.io/gem/v/webcache.svg?style=flat-square)](https://rubygems.org/gems/webcache)
-[![Travis](https://img.shields.io/travis/DannyBen/webcache.svg?style=flat-square)](https://travis-ci.org/DannyBen/webcache)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/DannyBen/webcache.svg?style=flat-square)](https://codeclimate.com/github/DannyBen/webcache)
-[![Dependencies](https://img.shields.io/gemnasium/DannyBen/webcache.svg?style=flat-square)](https://gemnasium.com/DannyBen/webcache)
+[![Gem Version](https://badge.fury.io/rb/webcache.svg)](https://badge.fury.io/rb/webcache)
+[![Build Status](https://travis-ci.org/DannyBen/webcache.svg?branch=master)](https://travis-ci.org/DannyBen/webcache)
+[![Maintainability](https://api.codeclimate.com/v1/badges/022f555211d47d655988/maintainability)](https://codeclimate.com/github/DannyBen/webcache/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/022f555211d47d655988/test_coverage)](https://codeclimate.com/github/DannyBen/webcache/test_coverage)
 
 ---
 
