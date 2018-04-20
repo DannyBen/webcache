@@ -19,12 +19,7 @@ class WebCache
     path = get_path url
     FileUtils.rm path if old? path
 
-    return load_file_content(path) if File.exist? path
-
-    response = http_get(url)
-    save_file_content(path, response) unless !response || response.error
-
-    response
+    get! path, url
   end
 
   def cached?(url)
@@ -49,6 +44,13 @@ class WebCache
   end
 
   private
+
+  def get!(path, url)
+    return load_file_content path if File.exist? path
+    response = http_get url
+    save_file_content path, response unless !response || response.error
+    response
+  end
 
   def get_path(url)
     File.join dir, Digest::MD5.hexdigest(url)
