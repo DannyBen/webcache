@@ -2,7 +2,7 @@ WebCache
 ==================================================
 
 [![Gem Version](https://badge.fury.io/rb/webcache.svg)](https://badge.fury.io/rb/webcache)
-[![Build Status](https://travis-ci.org/DannyBen/webcache.svg?branch=master)](https://travis-ci.org/DannyBen/webcache)
+[![Build Status](https://travis-ci.com/DannyBen/webcache.svg?branch=master)](https://travis-ci.com/DannyBen/webcache)
 [![Maintainability](https://api.codeclimate.com/v1/badges/022f555211d47d655988/maintainability)](https://codeclimate.com/github/DannyBen/webcache/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/022f555211d47d655988/test_coverage)](https://codeclimate.com/github/DannyBen/webcache/test_coverage)
 
