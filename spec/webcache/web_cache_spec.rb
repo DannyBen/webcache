@@ -3,10 +3,7 @@ require 'fileutils'
 
 describe WebCache do
   let(:url) { 'http://example.com' }
-
-  before do 
-    FileUtils.rm_rf 'cache'
-  end
+  before { subject.flush }
 
   describe '#new' do
     it "sets default properties" do
@@ -48,6 +45,15 @@ describe WebCache do
       expect(subject).to be_cached url
       response = subject.get url
       expect(response.content.length).to be > 500
+    end
+
+    context "with force: true" do
+      it "always downloads a fresh copy" do
+        subject.get url
+        expect(subject).to be_cached url
+        expect(subject).to receive(:http_get).with(url)
+        subject.get url, force: true
+      end
     end
 
     context "when cache is disabled" do
@@ -123,6 +129,30 @@ describe WebCache do
     end
   end
 
+  describe '#clear' do
+    before do
+      subject.get url
+      expect(Dir).not_to be_empty subject.dir
+    end
+
+    it "removes a url cache file" do
+      subject.clear url
+      expect(Dir).to be_empty subject.dir
+    end
+  end
+
+  describe '#flush' do
+    before do
+      subject.get url
+      expect(Dir).not_to be_empty subject.dir
+    end
+
+    it "deletes the entire cache directory" do
+      subject.flush
+      expect(Dir).not_to exist subject.dir      
+    end
+  end
+
   describe '#options' do
     it "returns a hash with default options" do
       expected = {
@@ -144,7 +174,7 @@ describe WebCache do
     end
   end
 
-  describe '#life=', :focus do    
+  describe '#life=' do
     it "handles plain numbers" do
       subject.life = 11
       expect(subject.life).to eq 11

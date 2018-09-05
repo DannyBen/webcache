@@ -56,7 +56,7 @@ Or later:
 ```ruby
 cache = WebCache.new
 cache.dir = 'tmp/my_cache'
-cache.life = 7200 # seconds
+cache.life = '4h'
 response = cache.get 'http://example.com'
 ```
 
@@ -70,7 +70,7 @@ cache.life = '10h'  # 10 hours
 cache.life = '10d'  # 10 days
 ```
 
-To check if a URL is cached, use the `cached?` method:
+Use the `cached?` method to check if a URL is cached:
 
 ```ruby
 cache = WebCache.new
@@ -82,7 +82,7 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
-You can enable/disable the cache at any time:
+Use `enable` and `disable` to toggle caching on and off:
 
 ```ruby
 cache = WebCache.new
@@ -100,6 +100,32 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
+Use `clear url` to remove a cached object if it exists:
+
+```ruby
+cache = WebCache.new
+response = cache.get 'http://example.com'
+cache.cached? 'http://example.com'
+# => true
+
+cache.clear 'http://example.com'
+cache.cached? 'http://example.com'
+# => false
+```
+
+Use `flush` to delete the entire cache directory:
+
+```ruby
+cache = WebCache.new
+cache.flush
+```
+
+Use `force: true` to force download even if the object is cached:
+
+```ruby
+cache = WebCache.new
+response = cache.get 'http://example.com', force: true
+```
 
 Basic Authentication and Additional Options
 --------------------------------------------------

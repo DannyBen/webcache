@@ -13,11 +13,11 @@ class WebCache
     @enabled = true
   end
 
-  def get(url)
+  def get(url, force: false)
     return http_get url unless enabled?
 
     path = get_path url
-    FileUtils.rm path if old? path
+    clear url if force or stale? path
 
     get! path, url
   end
@@ -28,7 +28,7 @@ class WebCache
 
   def cached?(url)
     path = get_path url
-    File.exist?(path) and !old?(path)
+    File.exist?(path) and !stale?(path)
   end
 
   def enabled?
@@ -41,6 +41,15 @@ class WebCache
 
   def disable
     @enabled = false
+  end
+
+  def clear(url)
+    path = get_path url
+    FileUtils.rm path if File.exist? path
+  end
+
+  def flush
+    FileUtils.rm_rf dir if Dir.exist? dir
   end
 
   def options
@@ -79,7 +88,7 @@ class WebCache
     end
   end
 
-  def old?(path)
+  def stale?(path)
     life > 0 and File.exist?(path) and Time.new - File.mtime(path) >= life
   end
 
