@@ -4,27 +4,31 @@ require 'open-uri'
 require 'open_uri_redirections'
 
 class WebCache
-  attr_reader :last_error
-  attr_accessor :dir, :life
+  attr_reader :last_error, :life
+  attr_accessor :dir
 
-  def initialize(dir='cache', life=3600)
+  def initialize(dir: 'cache', life: '1h')
     @dir = dir
-    @life = life
+    @life = life_to_seconds life
     @enabled = true
   end
 
-  def get(url)
+  def get(url, force: false)
     return http_get url unless enabled?
 
     path = get_path url
-    FileUtils.rm path if old? path
+    clear url if force or stale? path
 
     get! path, url
   end
 
+  def life=(new_life)
+    @life = life_to_seconds new_life
+  end
+
   def cached?(url)
     path = get_path url
-    File.exist?(path) and !old?(path)
+    File.exist?(path) and !stale?(path)
   end
 
   def enabled?
@@ -37,6 +41,15 @@ class WebCache
 
   def disable
     @enabled = false
+  end
+
+  def clear(url)
+    path = get_path url
+    FileUtils.rm path if File.exist? path
+  end
+
+  def flush
+    FileUtils.rm_rf dir if Dir.exist? dir
   end
 
   def options
@@ -75,8 +88,20 @@ class WebCache
     end
   end
 
-  def old?(path)
+  def stale?(path)
     life > 0 and File.exist?(path) and Time.new - File.mtime(path) >= life
+  end
+
+  def life_to_seconds(arg)
+    arg = arg.to_s
+
+    case arg[-1]
+    when 's'; arg[0..-1].to_i
+    when 'm'; arg[0..-1].to_i * 60
+    when 'h'; arg[0..-1].to_i * 60 * 60
+    when 'd'; arg[0..-1].to_i * 60 * 60 * 24
+    else;     arg.to_i
+    end
   end
 
   # Use a less strict URL retrieval:

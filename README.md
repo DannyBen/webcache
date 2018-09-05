@@ -47,7 +47,7 @@ expire after 60 minutes. The cache directory will be created as needed.
 You can change these settings on initialization:
 
 ```ruby
-cache = WebCache.new 'tmp/my_cache', 7200
+cache = WebCache.new dir: 'tmp/my_cache', life: '3d'
 response = cache.get 'http://example.com'
 ```
 
@@ -56,11 +56,21 @@ Or later:
 ```ruby
 cache = WebCache.new
 cache.dir = 'tmp/my_cache'
-cache.life = 7200 # seconds
+cache.life = '4h'
 response = cache.get 'http://example.com'
 ```
 
-To check if a URL is cached, use the `cached?` method:
+The `life` property accepts any of these formats:
+
+```ruby
+cache.life = 10     # 10 seconds
+cache.life = '20s'  # 20 seconds
+cache.life = '10m'  # 10 minutes
+cache.life = '10h'  # 10 hours
+cache.life = '10d'  # 10 days
+```
+
+Use the `cached?` method to check if a URL is cached:
 
 ```ruby
 cache = WebCache.new
@@ -72,7 +82,7 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
-You can enable/disable the cache at any time:
+Use `enable` and `disable` to toggle caching on and off:
 
 ```ruby
 cache = WebCache.new
@@ -90,6 +100,32 @@ cache.cached? 'http://example.com'
 # => true
 ```
 
+Use `clear url` to remove a cached object if it exists:
+
+```ruby
+cache = WebCache.new
+response = cache.get 'http://example.com'
+cache.cached? 'http://example.com'
+# => true
+
+cache.clear 'http://example.com'
+cache.cached? 'http://example.com'
+# => false
+```
+
+Use `flush` to delete the entire cache directory:
+
+```ruby
+cache = WebCache.new
+cache.flush
+```
+
+Use `force: true` to force download even if the object is cached:
+
+```ruby
+cache = WebCache.new
+response = cache.get 'http://example.com', force: true
+```
 
 Basic Authentication and Additional Options
 --------------------------------------------------
