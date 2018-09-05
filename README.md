@@ -47,7 +47,7 @@ expire after 60 minutes. The cache directory will be created as needed.
 You can change these settings on initialization:
 
 ```ruby
-cache = WebCache.new 'tmp/my_cache', 7200
+cache = WebCache.new dir: 'tmp/my_cache', life: '3d'
 response = cache.get 'http://example.com'
 ```
 
@@ -58,6 +58,16 @@ cache = WebCache.new
 cache.dir = 'tmp/my_cache'
 cache.life = 7200 # seconds
 response = cache.get 'http://example.com'
+```
+
+The `life` property accepts any of these formats:
+
+```ruby
+cache.life = 10     # 10 seconds
+cache.life = '20s'  # 20 seconds
+cache.life = '10m'  # 10 minutes
+cache.life = '10h'  # 10 hours
+cache.life = '10d'  # 10 days
 ```
 
 To check if a URL is cached, use the `cached?` method:
