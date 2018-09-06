@@ -14,8 +14,8 @@ describe WebCache do
   end
 
   it "behaves as a WebCache instance" do
-    instance_methods = described_class.new.methods - Object.methods
-    class_methods = subject.methods - Object.methods
+    instance_methods = subject.new.methods - Object.methods
+    class_methods    = subject.methods - Object.methods
 
     expect(instance_methods).to eq class_methods
   end
