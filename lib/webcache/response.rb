@@ -1,4 +1,4 @@
-class WebCache
+module CacheOperations
   class Response
     attr_accessor :error, :base_uri, :content
 
