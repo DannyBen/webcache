@@ -6,7 +6,7 @@ describe WebCache do
 
   it "has good defaults" do
     expect(subject.dir).to eq 'cache'
-    expect(subject.life).to eq 360
+    expect(subject.life).to eq 3600
   end
 
   it "is enabled by default" do
