@@ -7,3 +7,8 @@ version WebCache::VERSION
 
 RunfileTasks::RubyGems.all 'webcache'
 RunfileTasks::Testing.rspec
+
+help   "Run interactive console"
+action :console, :c do
+  run "bundle exec bin/console"
+end

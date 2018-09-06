@@ -1,4 +1,5 @@
 require 'openssl'
 
-require 'webcache/web_cache'
+require 'webcache/cache_operations'
 require 'webcache/response'
+require 'webcache/web_cache'
