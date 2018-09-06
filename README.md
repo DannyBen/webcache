@@ -28,7 +28,28 @@ gem 'webcache'
 Usage
 --------------------------------------------------
 
-Load a file from cache, or download if needed:
+WebCache can be used both as an instance, and as a static class.
+
+```ruby
+require 'webcache'
+
+# Instance
+cache = WebCache.new life: '3h'
+response = cache.get 'http://example.com'
+
+# Static
+WebCache.life = '3h'
+WebCache.get 'http://example.com'
+```
+
+The design intention is to provide both a globally available singleton
+`WebCache` object, as well as multiple caching instances, with different
+settings - depending on the use case.
+
+Note that the examples in this README are all using the instance syntax, but
+all methods are also available statically.
+
+This is the basic usage pattern:
 
 ```ruby
 require 'webcache'

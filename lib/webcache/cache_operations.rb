@@ -31,7 +31,7 @@ module CacheOperations
   end
 
   def life
-    @life ||= 360
+    @life ||= 3600
   end
 
   def cached?(url)
