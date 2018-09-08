@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'fileutils'
 
 describe WebCache do
   subject { described_class }
