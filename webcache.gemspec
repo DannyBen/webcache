@@ -17,10 +17,4 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.4.0"
 
   s.add_runtime_dependency 'open_uri_redirections', '~> 0.2'
-
-  s.add_development_dependency 'runfile', '~> 0.10'
-  s.add_development_dependency 'runfile-tasks', '~> 0.4'
-  s.add_development_dependency 'rspec', '~> 3.4'
-  s.add_development_dependency 'simplecov', '~> 0.15'
-  s.add_development_dependency 'byebug', '~> 10.0'
 end
