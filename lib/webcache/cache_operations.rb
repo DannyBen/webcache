@@ -90,11 +90,9 @@ class WebCache
     end
 
     def http_get(url)
-      begin
-        Response.new open(url, options)
-      rescue => e
-        Response.new error: e.message, base_uri: url, content: e.message
-      end
+      Response.new open(url, options)
+    rescue => e
+      Response.new error: e.message, base_uri: url, content: e.message
     end
 
     def stale?(path)
