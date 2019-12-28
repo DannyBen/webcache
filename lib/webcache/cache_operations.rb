@@ -15,6 +15,8 @@ class WebCache
     end
 
     def get(url, force: false)
+      url = url.gsub(/%20/, '+')
+      
       return http_get url unless enabled?
 
       path = get_path url

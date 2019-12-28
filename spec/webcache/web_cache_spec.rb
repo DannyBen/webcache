@@ -95,6 +95,18 @@ describe WebCache do
         expect(response.error).to be nil
       end
     end
+
+    context "when a url contains %20" do
+      let(:url)      { 'http://software-engineering-handbook.com/Handbook/Video%20Series' }
+      let(:expected) { 'http://software-engineering-handbook.com/Handbook/Video+Series' }
+      let(:response) { subject.get url }
+      
+      it "substitutes it with +" do
+        expect(response.content.size).to be > 1000
+        expect(response.error).to be nil
+        expect(response.base_uri.to_s).to eq expected
+      end
+    end
   end
 
   describe '#cached?' do
