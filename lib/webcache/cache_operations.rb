@@ -92,6 +92,7 @@ class WebCache
     def http_get(url)
       Response.new open(url, options)
     rescue => e
+      url = URI.parse url
       Response.new error: e.message, base_uri: url, content: e.message
     end
 
