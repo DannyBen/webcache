@@ -114,11 +114,11 @@ describe WebCache do
       let(:response) { subject.get 'http://not-a-uri' }
 
       it 'returns the error message' do
-        expect(response.content).to match 'failure in name resolution'
+        expect(response.content).to match 'failed to connect'
       end
 
       it 'sets error to the error message' do
-        expect(response.error).to match 'failure in name resolution'
+        expect(response.error).to match 'failed to connect'
       end
     end
 
