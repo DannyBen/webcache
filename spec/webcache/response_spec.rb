@@ -5,9 +5,10 @@ describe WebCache::Response do
     context "with hash" do
       let :response do
         described_class.new({ 
-          error: 'problemz', 
-          base_uri: 'sky.net', 
-          content: 'robots' 
+          error: 'problemz',
+          base_uri: 'sky.net',
+          content: 'robots',
+          code: 200
         })
       end
 
@@ -22,34 +23,58 @@ describe WebCache::Response do
       it "sets content" do
         expect(response.content).to eq 'robots'
       end
+
+      it "sets code" do
+        expect(response.code).to eq 200
+      end
     end
 
-    context "with open uri" do
-      let :response do
-        described_class.new OpenStruct.new base_uri: 'sky.net', read: 'robots'
-      end
+    context "with HTTP response" do
+      let(:http_response) { HTTP.follow.get "http://example.com" }
+      let(:response) { described_class.new http_response }
       
       it "sets error" do
         expect(response.error).to be nil
       end
 
       it "sets base_uri" do
-        expect(response.base_uri).to eq 'sky.net'
+        expect(response.base_uri.to_s).to eq 'http://example.com/'
       end
 
       it "sets content" do
-        expect(response.content).to eq 'robots'
+        expect(response.content).to match 'Example Domain'
+      end
+
+      it "sets code" do
+        expect(response.code).to eq 200
       end
     end
   end
 
   describe '#to_s' do
-    let :response do
-      described_class.new content: 'robots'
-    end
+    let(:response) { described_class.new content: 'robots' }
 
     it "returns the content" do
       expect(response.to_s).to eq 'robots'
     end
   end
+
+  describe '#success?' do
+    context "when there was an error" do
+      let(:response) { described_class.new error: 'robots' }
+
+      it "returns false" do
+        expect(response.success?).to be false
+      end
+    end
+
+    context "when there was no error" do
+      let(:response) { described_class.new content: 'robots' }
+
+      it "returns true" do
+        expect(response.success?).to be true
+      end
+    end
+  end
+
 end

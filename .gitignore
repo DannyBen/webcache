@@ -5,4 +5,5 @@
 /gems
 /Gemfile.lock
 /.yardoc
+/debug.rb
 *.gem

@@ -1,17 +1,17 @@
 require 'digest/md5'
 require 'fileutils'
-require 'open-uri'
-require 'open_uri_redirections'
+require 'http'
 
 class WebCache
   module CacheOperations
-    attr_reader :last_error
+    attr_reader :last_error, :user, :pass, :auth
     attr_writer :dir
 
-    def initialize(dir: 'cache', life: '1h')
+    def initialize(dir: 'cache', life: '1h', auth: nil)
       @dir = dir
       @life = life_to_seconds life
       @enabled = true
+      @auth = convert_auth auth
     end
 
     def get(url, force: false)
@@ -61,11 +61,11 @@ class WebCache
       FileUtils.rm_rf dir if Dir.exist? dir
     end
 
-    def options
-      @options ||= default_open_uri_options
+    def auth=(auth)
+      convert_auth auth
     end
 
-    private
+  private
 
     def get!(path, url)
       return load_file_content path if File.exist? path
@@ -90,10 +90,24 @@ class WebCache
     end
 
     def http_get(url)
-      Response.new open(url, options)
+      Response.new http_response(url)
     rescue => e
       url = URI.parse url
       Response.new error: e.message, base_uri: url, content: e.message
+    end
+
+    def basic_auth?
+      !!(user and pass)
+    end
+
+    def http_response(url)
+      if basic_auth?
+        HTTP.basic_auth(user: user, pass: pass).follow.get url
+      elsif auth
+        HTTP.auth(auth).follow.get url
+      else
+        HTTP.follow.get url
+      end
     end
 
     def stale?(path)
@@ -112,16 +126,16 @@ class WebCache
       end
     end
 
-    # Use a less strict URL retrieval:
-    # 1. Allow http to/from https redirects (through the use of the 
-    #    open_uri_redirections gem)
-    # 2. Disable SSL verification, otherwise, some https sites that show 
-    #    properly in the browser, will return an error.
-    def default_open_uri_options
-      {
-        allow_redirections: :all, 
-        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
-      }
+    def convert_auth(opts)
+      @user, @pass, @auth = nil, nil, nil
+
+      if opts.respond_to?(:has_key?) and opts.has_key?(:user) and opts.has_key?(:pass)
+        @user = opts[:user]
+        @pass = opts[:pass]
+      else
+        @auth = opts
+      end
     end
+
   end
 end

@@ -147,18 +147,37 @@ cache = WebCache.new
 response = cache.get 'http://example.com', force: true
 ```
 
-Basic Authentication and Additional Options
+Authentication
 --------------------------------------------------
-WebCache uses Ruby's [Open URI][1] to download. If you wish to modify 
-the options it uses, simply update the `options` hash.
 
-For example, to use HTTP basic authentication, use something like this:
+To configure an authentication header, use the `auth` option. Similarly to
+the other options, this can be set directly on the static class, on instance
+initialization, or later on the instance:
 
 ```ruby
+cache = WebCache.new auth: '...'
+cache.get 'http://example.com'      # authenticated
+
 cache = WebCache.new
-cache.options[:http_basic_authentication] = ["user", "pass123!"]
-response = cache.get 'http://example.com'
+cache.auth = '...'
+cache.get 'http://example.com'      # authenticated
+
+WebCache.auth = '...'
+WebCache.get 'http://example.com'   # authenticated
 ```
+
+For basic authentication, provide a hash:
+
+```ruby
+cache = WebCache.new auth: { user: 'user', pass: 's3cr3t' }
+```
+
+For other authentication headers, simply provide the header string:
+
+```ruby
+cache = WebCache.new auth: "Bearer t0k3n"
+```
+
 
 
 Response Object
@@ -177,6 +196,13 @@ the same content.
 
 In case of an error, this contains the error message, `nil` otherwise.
 
+### `response.code`
+
+Contains the HTTP code, or `nil` if there was a non-HTTP error.
+
+### `response.success?`
+
+A convenience method, returns true if `error` is empty.
 
 ### `response.base_uri`
 
