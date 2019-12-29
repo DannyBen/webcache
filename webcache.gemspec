@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.required_ruby_version = ">= 2.3.0"
 
-  s.add_runtime_dependency 'open_uri_redirections', '~> 0.2'
+  s.add_runtime_dependency 'http', '~> 4.2'
 end

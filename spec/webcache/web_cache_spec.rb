@@ -73,7 +73,28 @@ describe WebCache do
       end
     end
 
-    context 'with invalid request' do
+    context 'on a successful request' do
+      let(:response) { subject.get url }
+
+      it "sets response content" do
+        expect(response.content).to match "Example Domain"
+      end
+
+      it "sets response code" do
+        expect(response.code).to eq 200
+      end
+
+      it "sets response base_uri" do
+        expect(response.base_uri).to be_a HTTP::URI
+        expect(response.base_uri.to_s).to eq "http://example.com/"
+      end
+
+      it "sets error to nil" do
+        expect(response.error).to be_nil
+      end
+    end
+
+    context 'with 404 url' do
       let(:response) { subject.get 'http://example.com/not_found' }
 
       it 'returns the error message' do
@@ -82,6 +103,22 @@ describe WebCache do
 
       it 'sets error to the error message' do
         expect(response.error).to eq '404 Not Found'
+      end
+
+      it 'sets code to 404' do
+        expect(response.code).to eq 404
+      end
+    end
+
+    context 'with a bad url' do
+      let(:response) { subject.get 'http://not-a-uri' }
+
+      it 'returns the error message' do
+        expect(response.content).to match 'failure in name resolution'
+      end
+
+      it 'sets error to the error message' do
+        expect(response.error).to match 'failure in name resolution'
       end
     end
 
@@ -94,6 +131,42 @@ describe WebCache do
         expect(response.content.size).to be > 40000
         expect(response.error).to be nil
       end
+    end
+
+    context "with basic authentication" do
+      let(:response) { subject.get "https://httpbin.org/basic-auth/user/pass" }
+
+      context "when the credentials are valid" do
+        before { subject.auth = { user: 'user', pass: 'pass' } }
+        
+        it "works" do
+          expect(response).to be_success
+          content = JSON.parse response.content
+          expect(content["authenticated"]).to be true
+        end
+      end
+
+      context "when the credentials are invalid" do
+        before { subject.auth = { user: 'user', pass: 'wrong-pass' } }
+
+        it "fails" do
+          expect(response).not_to be_success
+          expect(response.code).to eq 401
+        end
+      end
+    end
+
+    context "with other authentication header" do
+      let(:response) { subject.get "https://httpbin.org/bearer" }
+      before { subject.auth = "Bearer t0k3n" }
+        
+      it "works" do
+        expect(response).to be_success
+        content = JSON.parse response.content
+        expect(content["authenticated"]).to be true
+        expect(content["token"]).to eq "t0k3n"
+      end
+
     end
   end
 
@@ -149,27 +222,6 @@ describe WebCache do
     it "deletes the entire cache directory" do
       subject.flush
       expect(Dir).not_to exist subject.dir      
-    end
-  end
-
-  describe '#options' do
-    it "returns a hash with default options" do
-      expected = {
-        allow_redirections: :all, 
-        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
-      }
-      expect(subject.options).to eq expected
-    end
-
-    it "allows adding options" do
-      subject.options[:hello] = 'world'
-
-      expected = {
-        allow_redirections: :all, 
-        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
-        hello: 'world'
-      }
-      expect(subject.options).to eq expected      
     end
   end
 
