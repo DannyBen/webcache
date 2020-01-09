@@ -5,7 +5,7 @@ rvm:
 - "2.4"
 - "2.5"
 - "2.6"
-# - "2.7"  # Failing for now, due to github.com/httprb/http/issues/582
+- "2.7"
 
 before_install:
 - gem install bundler
