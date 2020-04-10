@@ -1,5 +1,4 @@
-WebCache
-==================================================
+# WebCache
 
 [![Gem Version](https://badge.fury.io/rb/webcache.svg)](https://badge.fury.io/rb/webcache)
 [![Build Status](https://github.com/DannyBen/webcache/workflows/Test/badge.svg)](https://github.com/DannyBen/webcache/actions?query=workflow%3ATest)
@@ -11,8 +10,7 @@ Hassle-free caching for HTTP download.
 
 ---
 
-Install
---------------------------------------------------
+## Install
 
 ```
 $ gem install webcache
@@ -24,8 +22,7 @@ Or with bundler:
 gem 'webcache'
 ```
 
-Usage
---------------------------------------------------
+## Usage
 
 WebCache can be used both as an instance, and as a static class.
 
@@ -147,8 +144,7 @@ cache = WebCache.new
 response = cache.get 'http://example.com', force: true
 ```
 
-Authentication
---------------------------------------------------
+## Authentication
 
 To configure an authentication header, use the `auth` option. Similarly to
 the other options, this can be set directly on the static class, on instance
@@ -178,10 +174,7 @@ For other authentication headers, simply provide the header string:
 cache = WebCache.new auth: "Bearer t0k3n"
 ```
 
-
-
-Response Object
---------------------------------------------------
+## Response Object
 
 The response object holds these properties:
 
@@ -190,7 +183,6 @@ The response object holds these properties:
 Contains the HTML content. In case of an error, this will include the
 error message. The `#to_s` method of the response object also returns
 the same content.
-
 
 ### `response.error`
 
@@ -210,12 +202,17 @@ Contains the actual address of the page. This is useful when the request
 is redirected. For example, `http://example.com` will set the 
 `base_uri` to `http://example.com/` (note the trailing slash).
 
+## Related Projects
+
+For a similar gem that provides general purpose caching, see the 
+[Lightly gem][lightly].
+
+## Contributing / Support
+
+If you experience any issue, have a question or a suggestion, or if you wish
+to contribute, feel free to [open an issue][issues].
 
 ---
 
-For a similar gem that provides general purpose caching, see the 
-[Lightly gem][2]
-
-
-[1]: http://ruby-doc.org/stdlib-2.0.0/libdoc/open-uri/rdoc/OpenURI/OpenRead.html#method-i-open
-[2]: https://github.com/DannyBen/lightly
+[lightly]: https://github.com/DannyBen/lightly
+[issues]: https://github.com/DannyBen/webcache/issues
