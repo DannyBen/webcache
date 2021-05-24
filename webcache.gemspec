@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.files       = Dir['README.md', 'lib/**/*.*']
   s.homepage    = 'https://github.com/DannyBen/webcache'
   s.license     = 'MIT'
-  s.required_ruby_version = ">= 2.3.0"
+  s.required_ruby_version = ">= 2.5.0"
 
-  s.add_runtime_dependency 'http', '~> 4.2'
+  s.add_runtime_dependency 'http', '~> 5.0'
 end
