@@ -10,7 +10,7 @@ RunfileTasks::Testing.rspec
 
 help   "Run interactive console"
 action :console, :c do
-  run "bundle exec bin/console"
+  system "bundle exec bin/console"
 end
 
 require_relative 'debug' if File.exist? 'debug.rb'
