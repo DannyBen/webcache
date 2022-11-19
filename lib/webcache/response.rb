@@ -2,11 +2,10 @@ class WebCache
   class Response
     attr_accessor :error, :base_uri, :content, :code
 
-    def initialize(opts={})
-      if opts.is_a? HTTP::Response
-        init_with_http_response opts
-      elsif opts.is_a? Hash
-        init_with_hash opts
+    def initialize(opts = {})
+      case opts
+      when HTTP::Response then init_with_http_response opts
+      when Hash           then init_with_hash opts
       end
     end
 

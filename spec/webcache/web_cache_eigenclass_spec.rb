@@ -3,16 +3,16 @@ require 'spec_helper'
 describe WebCache do
   subject { described_class }
 
-  it "has good defaults" do
+  it 'has good defaults' do
     expect(subject.dir).to eq 'cache'
     expect(subject.life).to eq 3600
   end
 
-  it "is enabled by default" do
+  it 'is enabled by default' do
     expect(subject).to be_enabled
   end
 
-  it "behaves as a WebCache instance" do
+  it 'behaves as a WebCache instance' do
     instance_methods = subject.new.methods - Object.methods
     class_methods    = subject.methods - Object.methods
 
