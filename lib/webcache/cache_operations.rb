@@ -18,7 +18,7 @@ class WebCache
       return http_get url unless enabled?
 
       path = get_path url
-      clear url if force or stale? path
+      clear url if force || stale?(path)
 
       get! path, url
     end
@@ -69,6 +69,7 @@ class WebCache
 
     def get!(path, url)
       return load_file_content path if File.exist? path
+
       response = http_get url
       save_file_content path, response unless !response || response.error
       response
@@ -84,9 +85,7 @@ class WebCache
 
     def save_file_content(path, response)
       FileUtils.mkdir_p dir
-      File.open path, 'wb' do |f| 
-        f.write Marshal.dump response
-      end
+      File.binwrite path, Marshal.dump(response)
     end
 
     def http_get(url)
@@ -111,31 +110,32 @@ class WebCache
     end
 
     def stale?(path)
-      life > 0 and File.exist?(path) and Time.new - File.mtime(path) >= life
+      life.positive? and File.exist?(path) and Time.new - File.mtime(path) >= life
     end
 
     def life_to_seconds(arg)
       arg = arg.to_s
 
       case arg[-1]
-      when 's'; arg[0..-1].to_i
-      when 'm'; arg[0..-1].to_i * 60
-      when 'h'; arg[0..-1].to_i * 60 * 60
-      when 'd'; arg[0..-1].to_i * 60 * 60 * 24
-      else;     arg.to_i
+      when 's' then arg[0..].to_i
+      when 'm' then arg[0..].to_i * 60
+      when 'h' then arg[0..].to_i * 60 * 60
+      when 'd' then arg[0..].to_i * 60 * 60 * 24
+      else; arg.to_i
       end
     end
 
     def convert_auth(opts)
-      @user, @pass, @auth = nil, nil, nil
+      @user = nil
+      @pass = nil
+      @auth = nil
 
-      if opts.respond_to?(:has_key?) and opts.has_key?(:user) and opts.has_key?(:pass)
+      if opts.respond_to?(:has_key?) && opts.has_key?(:user) && opts.has_key?(:pass)
         @user = opts[:user]
         @pass = opts[:pass]
       else
         @auth = opts
       end
     end
-
   end
 end
