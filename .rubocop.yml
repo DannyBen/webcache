@@ -3,7 +3,9 @@ require:
   - rubocop-performance
 
 inherit_gem:
-  rentacop: rentacop.yml
+  rentacop:
+    - rentacop.yml
+    - rspec.yml
 
 AllCops:
   TargetRubyVersion: 2.6.0
@@ -20,34 +22,6 @@ Metrics/ModuleLength:
 Security/MarshalLoad:
   Enabled: false
 
-# Allow longer examples
-RSpec/ExampleLength:
-  Max: 8
-
-# Allow deeper nested groups
-RSpec/NestedGroups:
-  Max: 4
-
-# Prefer `receive` over `have_received`
-RSpec/MessageSpies:
-  EnforcedStyle: receive
-
-# Allow multiple expectations per block
-RSpec/MultipleExpectations:
-  Max: 3
-
-# Allow `expect` in `before`, as it is used to ensure the state
-RSpec/ExpectInHook:
-  Enabled: false
-
 # Allow non standard spec file name 
 RSpec/FilePath:
-  Enabled: false
-
-# Allow stubbing methods of the subject
-RSpec/SubjectStub:
-  Enabled: false
-
-# Allow using `subject` explicitly
-RSpec/NamedSubject:
   Enabled: false
