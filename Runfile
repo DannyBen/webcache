@@ -1,16 +1,8 @@
-require "runfile-tasks"
-require_relative 'lib/webcache'
+require 'webcache'
 
 title   "WebCache Developer Toolbelt"
 summary "Runfile tasks for building the WebCache gem"
 version WebCache::VERSION
 
-RunfileTasks::RubyGems.all 'webcache'
-RunfileTasks::Testing.rspec
-
-help   "Run interactive console"
-action :console, :c do
-  system "bundle exec bin/console"
-end
-
-require_relative 'debug' if File.exist? 'debug.rb'
+import_gem 'runfile-tasks/gem'
+import 'debug'
