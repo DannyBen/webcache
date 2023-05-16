@@ -25,3 +25,7 @@ Security/MarshalLoad:
 # Allow non standard spec file name 
 RSpec/FilePath:
   Enabled: false
+
+# Alerts by this cop are irrelevant
+RSpec/Rails:
+  Enabled: false

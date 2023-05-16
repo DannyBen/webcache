@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WebCache do
   subject { described_class }
 

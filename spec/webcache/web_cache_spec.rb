@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WebCache do
   let(:url) { 'http://example.com' }
 
@@ -12,11 +10,15 @@ describe WebCache do
     end
 
     context 'with arguments' do
-      subject { described_class.new dir: 'store', life: 120 }
+      subject { described_class.new dir: 'store', life: 120, auth: auth }
+
+      let(:auth) { { user: 'user', pass: 's3cr3t' } }
 
       it 'sets its properties' do
         expect(subject.life).to eq 120
         expect(subject.dir).to eq 'store'
+        expect(subject.user).to eq auth[:user]
+        expect(subject.pass).to eq auth[:pass]
       end
     end
   end
@@ -45,6 +47,22 @@ describe WebCache do
       expect(subject).to be_cached url
       response = subject.get url
       expect(response.content.length).to be > 500
+    end
+
+    context 'with file permissions' do
+      before do
+        subject.permissions = 0o600
+        FileUtils.rm_f tmp_path
+      end
+
+      let(:tmp_path) { '/tmp/webcache-test-file' }
+      let(:file_mode) { File.stat(tmp_path).mode & 0o777 }
+
+      it 'chmods the cache file after saving' do
+        allow(subject).to receive(:get_path).with(url).and_return tmp_path
+        subject.get url
+        expect(file_mode).to eq 0o600
+      end
     end
 
     context 'with force: true' do
@@ -250,6 +268,13 @@ describe WebCache do
     it 'handles 11d as days' do
       subject.life = '11d'
       expect(subject.life).to eq 11 * 60 * 60 * 24
+    end
+  end
+
+  describe '#permissions=' do
+    it 'sets file permissions' do
+      subject.permissions = 0o600
+      expect(subject.permissions).to eq 0o600
     end
   end
 end
