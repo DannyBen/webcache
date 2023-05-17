@@ -87,10 +87,9 @@ class WebCache
 
     def save_file_content(path, response)
       FileUtils.mkdir_p dir
-      File.binwrite path, Marshal.dump(response)
-      return unless permissions
-
-      FileUtils.chmod permissions, path
+      File.open path, 'wb', permissions do |file|
+        file.write Marshal.dump(response)
+      end
     end
 
     def http_get(url)
