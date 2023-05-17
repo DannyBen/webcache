@@ -25,5 +25,11 @@ jobs:
         ruby-version: '${{ matrix.ruby }}'
         bundler-cache: true
 
+    # this step is added since the public httpbin.prg is sometimes overloaded
+    - name: Start the httpbin test server
+      run: docker run -it --rm -d -p 3000:80 --name httpbin kennethreitz/httpbin
+
     - name: Run tests
       run: bundle exec rspec
+      env:
+        HTTPBIN_HOST: http://localhost:3000

@@ -153,7 +153,7 @@ describe WebCache do
     end
 
     context 'with basic authentication' do
-      let(:response) { subject.get 'https://httpbin.org/basic-auth/user/pass' }
+      let(:response) { subject.get "#{httpbin_host}/basic-auth/user/pass" }
 
       context 'when the credentials are valid' do
         before { subject.auth = { user: 'user', pass: 'pass' } }
@@ -176,7 +176,7 @@ describe WebCache do
     end
 
     context 'with other authentication header' do
-      let(:response) { subject.get 'https://httpbin.org/bearer' }
+      let(:response) { subject.get "#{httpbin_host}/bearer" }
 
       before { subject.auth = 'Bearer t0k3n' }
 
