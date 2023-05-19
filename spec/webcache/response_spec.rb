@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WebCache::Response do
   describe '#new' do
     context 'with hash' do

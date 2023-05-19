@@ -59,12 +59,13 @@ puts response.base_uri    # => "http://example.com/"
 ```
 
 By default, the cached objects are stored in the `./cache` directory, and
-expire after 60 minutes. The cache directory will be created as needed.
+expire after 60 minutes. The cache directory will be created as needed, and
+the permissions of the cached files can be specified if needed.
 
 You can change these settings on initialization:
 
 ```ruby
-cache = WebCache.new dir: 'tmp/my_cache', life: '3d'
+cache = WebCache.new dir: 'tmp/my_cache', life: '3d', permissions: 0o640
 response = cache.get 'http://example.com'
 ```
 
@@ -74,6 +75,7 @@ Or later:
 cache = WebCache.new
 cache.dir = 'tmp/my_cache'
 cache.life = '4h'
+cache.permissions = 0o640
 response = cache.get 'http://example.com'
 ```
 

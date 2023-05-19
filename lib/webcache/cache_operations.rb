@@ -4,14 +4,16 @@ require 'http'
 
 class WebCache
   module CacheOperations
+    attr_accessor :permissions
     attr_reader :last_error, :user, :pass, :auth
     attr_writer :dir
 
-    def initialize(dir: 'cache', life: '1h', auth: nil)
+    def initialize(dir: 'cache', life: '1h', auth: nil, permissions: nil)
       @dir = dir
       @life = life_to_seconds life
       @enabled = true
       @auth = convert_auth auth
+      @permissions = permissions
     end
 
     def get(url, force: false)
@@ -85,7 +87,9 @@ class WebCache
 
     def save_file_content(path, response)
       FileUtils.mkdir_p dir
-      File.binwrite path, Marshal.dump(response)
+      File.open path, 'wb', permissions do |file|
+        file.write Marshal.dump(response)
+      end
     end
 
     def http_get(url)
