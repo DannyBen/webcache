@@ -1,14 +1,6 @@
 # WebCache
 
-[![Gem Version](https://badge.fury.io/rb/webcache.svg)](https://badge.fury.io/rb/webcache)
-[![Build Status](https://github.com/DannyBen/webcache/workflows/Test/badge.svg)](https://github.com/DannyBen/webcache/actions?query=workflow%3ATest)
-[![Maintainability](https://api.codeclimate.com/v1/badges/022f555211d47d655988/maintainability)](https://codeclimate.com/github/DannyBen/webcache/maintainability)
-
----
-
 Hassle-free caching for HTTP download.
-
----
 
 ## Install
 
